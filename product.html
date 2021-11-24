@@ -24,7 +24,7 @@
         <div id="app">
             <nav class="navbar navbar-expand-md navbar-dark bg-secondary" style="width">
                 <div class="container">
-                    <a class="navbar-brand" href="#" v-on:click="ShowHomePage">
+                    <a class="navbar-brand" href="#" v-on:click="HomePage">
                         <img src="image/microphone.png" width="50">
                         <b class="text-body">&nbsp;SoundEnt.</b>
                     </a>
@@ -37,8 +37,8 @@
                             <li class="nav-item text-dark">
                                 <a class="nav-link text-dark" href="#">Search</a>
                             </li>
-                            <li class="nav-item text-dark" v-on:click="ShowMyCart">
-                                <a class="nav-link text-dark" href="#">Cart ({{countitem}})</a>
+                            <li class="nav-item text-dark" v-on:click="MyCart">
+                                <a class="nav-link text-dark" href="#">Cart ({{CountItem}})</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#"
@@ -53,35 +53,36 @@
                     </div>
                 </div>
             </nav>
-            <div class="container" style="margin-top : 30px;" v-if="product_page">
-                Products
-                <hr />
-                <div class="home container">
-                    <div class="row">
-                        <div class="col-md-12 pt-5">
-                            <div class="row equal row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4">
-                                <Product v-on:add-item="addItem" v-for="product in products" :product="product"
-                                    :key="product.id" />
+                <div class="container" style="margin-top : 30px;" v-if="product_page">
+                    Products
+                    <hr />
+                    <div class="home container">
+                        <div class="row">
+                            <div class="col-md-12 pt-5">
+                                <div
+                                    class="row equal row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4">
+                                    <Product v-on:add-item="addItem" v-for="product in products" :product="product"
+                                        :key="product.id" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="container" style="margin-top : 30px;" v-if="cart_page">
-                Cart
-                <hr />
-                <div class="home container">
-                    <div class="row">
-                        <div class="col-md-12 pt-5">
-                            <div class="col fw bold">
-                                <CartItem v-for="item in cart" :item="item" :key="item.id" />
+                <div class="container" style="margin-top : 30px;" v-if="cart_page">
+                    Cart
+                    <hr />
+                    <div class="home container">
+                        <div class="row">
+                            <div class="col-md-12 pt-5">
+                                <div class="col fw bold">
+                                    <CartItem v-for="item in cart" :item="item" :key="item.id" />
+                                </div>
                             </div>
-                        </div>
-                    </div></br>
-                    <div class="row">The total is {{grandtotal}}$</div>
+                        </div></br>
+                        <div class="row">The total is {{total}}$</div>
+                    </div>
                 </div>
-            </div>
         </div>
 
 
@@ -98,7 +99,7 @@
                         ${{product.price}}
                         <br />
                         <small>
-                            {{product.shortdesc}}
+                            {{product.desc}}
                         </small>
                     </p>
                     <button @click="addToCart()" class="btn btn-primary btn-block">Add</button>
@@ -111,7 +112,7 @@
         <div class=" p-3 m-2 border">
             <div class="row">
                 <div class="col">{{item.name}}</div>
-                <div class="col">Amount x{{item.count}}</div>
+                <div class="col">Amount: {{item.count}}</div>
                 <div class="col">Price: {{item.price}}*{{item.count}} = {{item.total}}</div>
                 <div class="col"><button @click="removeFromCart()" class="btn btn-primary btn-block">Remove</button>
                 </div>
@@ -138,37 +139,37 @@
                         id: 1,
                         name: "Sennheiser HandMic Digital Microphone",
                         price: 360,
-                        shortdesc: "The new arrival with the best design award.",
+                        desc: "The new arrival with the best design award.",
                         url: "image/mic-card-1.jpg"
                     }, {
                         id: 2,
                         name: "Sennheiser MKE 400 Mobile Kit",
                         price: 230,
-                        shortdesc: "The best for the newcomer.",
+                        desc: "The best for the newcomer.",
                         url: "image/mic-card-2.jpg"
                     }, {
                         id: 3,
                         name: "EPOS STREAMING MICROPHONE B20",
                         price: 209.99,
-                        shortdesc: "The literature that can make you deeply feel the meaning of your life.",
+                        desc: "The literature that can make you deeply feel the meaning of your life.",
                         url: "image/mic-card-5.jpg"
                     }, {
                         id: 4,
                         name: "Rode Classic II Limited Edition",
                         price: 3390,
-                        shortdesc: "The classic limited edition.",
+                        desc: "The classic limited edition.",
                         url: "image/mic-card-4.jpg"
                     }, {
                         id: 5,
                         name: "Touch",
                         price: 99.99,
-                        shortdesc: "The best compact design for 2019.",
+                        desc: "The best compact design for 2019.",
                         url: "https://i.ytimg.com/vi/6kvHwfiWlAw/maxresdefault.jpg"
                     }, {
                         id: 6,
                         name: "Maono AU-WDM01 Professional Dynamic Cardioid Vocal Wired Mic.",
                         price: 999.99,
-                        shortdesc: "The best dynamic mic in 2020!",
+                        desc: "The best dynamic mic in 2020!",
                         url: "https://static.toiimg.com/thumb/msid-79639703,width-1070,height-580,imgsize-1211391,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg"
                     }],
 
@@ -204,36 +205,36 @@
                             count: 1
                         })
                     }
-                    let grandtotal = 0
-                    grandtotal += item.total
+                    let total = 0
+                    total += item.total
                     console.log(this.cart)
                 },
 
-                ShowMyCart: function () {
+                MyCart: function () {
                     this.cart_page = true
                     this.product_page = false
                 },
 
-                ShowHomePage: function () {
+                HomePage: function () {
                     this.product_page = true
                     this.cart_page = false
                 }
             },
 
             computed: {
-                countitem: function () {
+                CountItem: function () {
                     var total = 0
                     for (i in this.cart) {
                         total += this.cart[i].count
                     }
                     return total
                 },
-                grandtotal: function () {
-                    var grandtotal = 0
+                total: function () {
+                    var total = 0
                     for (i in this.cart) {
-                        grandtotal += this.cart[i].total
+                        total += this.cart[i].total
                     }
-                    return grandtotal
+                    return total
                 }
             }
 
